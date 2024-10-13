@@ -9,6 +9,9 @@ int main(){
     lena=strlen(a);
     lenb=strlen(b);
     for(int i=0;i<=lena-1;i++){
+        if(a[i]=='('||a[i]==')'){
+            continue;
+        }
         printf("%c",a[i]);
     }
     printf("\n");
