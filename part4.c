@@ -45,9 +45,8 @@ void minute(){
                 b[i]=t1[i];
             }
         }
-
     }
-    for(int i=0;i<=lenc-1;i++){//处理加法，需要判断退位
+    for(int i=0;i<=lenc-1;i++){//处理减法，需要判断退位
         c[i]=a[i]-b[i];
         if(flag==1){
             c[i]--;
@@ -58,7 +57,6 @@ void minute(){
             flag=1;
         }
     }
-    //此处修改，删去了多余的结果判断
     for(int i=lenc-1;i>=0;i--){//跳过前导0
         if(c[i]==0&&flag3==0){
             continue;
@@ -107,7 +105,6 @@ void divide(){
             }else if(b[i]<a[i]){
                 break;
             }
-            //此处修改，同上(减法)
         }
         if(flag4==1){
             for(int i=0;i<=lenc-1;i++){
@@ -124,7 +121,7 @@ void divide(){
     int p1=0,x=0,lenn=0,o=0,p=0;//p1表示商的位数，x表示当前被除数的第一位，o和p表示商的开始位与结束位
     lenn=lenb;//lenn表示前导0的个数+lenb，即目前运算到了哪一位
     while(lena>=lenn){//lena>=lenn说明已经相除到最后一位
-        while(1){//此处while表明做一次除法，从中判断后break出循环（或许有更明了的写法？）
+        while(1){//此处while表明做一次除法，从中判断后break出循环，break出循环作用主要为使商的位数增加，可换为do-while循环更加简洁
             flag5=0;
             for(int i=0;i<=lenn-lenb;i++){//得到每次运算后被除数不为0的第一位，即商的第一位
                 if(a[i]!=0){
@@ -189,19 +186,19 @@ int main(){
     char n[128]={0};
     scanf("%s",&n);
     //根据输入格式可知，括号里的一定是负数，由此判断
-    if(n[0]=='('){//处理括号
+    if(n[0]=='('){//获取第一个数
         flag1=1;
         for(int i=2;i<=strlen(n)-1;i++){
-            if(n[i]==')'){//获取第一个数
-                t=i+1;
+            if(n[i]==')'){
+                t=i+1;//获取运算符的位置
                 break;
             }
             a1[i-2]=n[i];
         }
     }else{
         for(int i=0;i<=strlen(n)-1;i++){
-            if(n[i]<'0'||n[i]>'9'){//获取第二个数
-                t=i;
+            if(n[i]<'0'||n[i]>'9'){
+                t=i;//获取运算符的位置
                 break;
             }
             a1[i]=n[i];
@@ -216,7 +213,7 @@ int main(){
     }else if(n[t]=='/'){
         Flag=4;
     }
-    if(n[t+1]=='('){//处理括号
+    if(n[t+1]=='('){//获取第二个数
         flag2=1;
         for(int i=t+2;i<=strlen(n)-1;i++){
             if(n[i]==')'){
@@ -231,7 +228,6 @@ int main(){
         }
     }
     if(a1[0]=='-'){//处理负号
-        // flag1=1;
         for(int i=1;i<=strlen(a1)-1;i++){
             a[i-1]=a1[i];
         }
@@ -239,7 +235,6 @@ int main(){
         strcpy(a,a1);
     }
     if(b1[0]=='-'){
-        // flag2=1;
         for(int i=1;i<=strlen(b1)-1;i++){
             b[i-1]=b1[i];
         }
@@ -311,7 +306,7 @@ int main(){
         printf("-");
         multiply();
     }else if(Flag==4){
-        for(int i=0;i<lena/2;i++){//除法无需倒置
+        for(int i=0;i<lena/2;i++){//除法无需倒置，此处可优化：在第一次倒置的时候就判断并不进行倒置
             int t=a[i];
             a[i]=a[lena-1-i];
             a[lena-1-i]=t;
